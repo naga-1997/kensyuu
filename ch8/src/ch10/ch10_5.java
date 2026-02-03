@@ -17,6 +17,6 @@ class SuperHer extends Hero {
 	}
 	//runメソッドを再定義
 	public void run() {
-		System.out.println(this.name + "は逃げだした");
+		System.out.println(this.name + "は撤退した");
 	}
 }
