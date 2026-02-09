@@ -1,0 +1,16 @@
+package ch15;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class ch15_Question5 {
+
+	public static void main(String[] args) {
+		LocalDate now = LocalDate.now();
+		LocalDate future = now.plusDays(100);
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("西暦yyyy年MM月dd日");
+		System.out.println(fmt);
+ 
+	}
+
+}
