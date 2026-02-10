@@ -1,5 +1,5 @@
 package ch11;
-
+/*
 //１９行目でコンパイルエラーを出さないためのMatangoクラスを宣言
 class Matango{
 	int hp =10;
@@ -10,7 +10,7 @@ class Matango{
  * Characterクラスを継承して
  *「ダンス」メソッドを作り、attackメソッドをオーバーライドする 
 **************************/
-class Dancer extends Character {
+/*class Dancer extends Character {
 	 
 	 public void damce() {
 		 System.out.println(this.name + "は情熱的に踊った");
@@ -22,4 +22,4 @@ class Dancer extends Character {
 		 System.out.println("敵に３ポイントのダメージ");
 		 m.hp -= 3;
 	 }
-}
+}*/

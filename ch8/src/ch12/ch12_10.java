@@ -3,7 +3,7 @@ package ch12;
  * それぞれのモンスターが逃げる
  * それぞれのクラスはch12_2にある
  *************************/
-class Main {
+/*class Main {
 	public static void main(String[] args) {
 		Monster[] monsters = new Monster[3];
 		monsters[0] = new Slime();
@@ -14,4 +14,4 @@ class Main {
 			m.run();
 		}
 	}
-}
+}*/

@@ -1,6 +1,6 @@
 package ch12;
 
-class Main {
+/*class Main {
 
 	public static void main(String[] args) {
 		//それぞれをインスタンス
@@ -18,5 +18,4 @@ class Main {
 		w1.hp += 50;
 		w2.hp += 50;
 	}
-
-}
+}*/

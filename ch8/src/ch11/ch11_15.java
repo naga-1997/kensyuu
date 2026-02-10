@@ -22,5 +22,8 @@ class KyoutoCleaningShop implements CleaningService{
 		//ドライ２０分
 		return c;
 	}
-
 }
+
+class Shirt{}
+class Towl{}
+class Coat{}

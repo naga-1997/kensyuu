@@ -1,6 +1,6 @@
 package ch12;
 
-class Hero extends Character{
+/*class Hero extends Character{
 	//キノコに対する攻撃
 	public void attack(Matango m) {
 		System.out.println(this.name + "の攻撃」！");
@@ -14,4 +14,4 @@ class Hero extends Character{
 		g.hp -= 10;
 	}
 	//以下スライムなど続く。。。
-}
+}*/

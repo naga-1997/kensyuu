@@ -1,5 +1,5 @@
 package ch11;
-
+/*
  class Dancer extends Character {
 	 
 	 public void damce() {
@@ -11,4 +11,4 @@ package ch11;
 		 System.out.println("攻撃した");
 	 }
 	 ******************************************/
-}
+//}

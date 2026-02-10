@@ -1,5 +1,5 @@
 package ch17;
-
+/*
 import java.io.FileWriter;
 
 public class ch17_10 {
@@ -12,3 +12,4 @@ public class ch17_10 {
 		}
 	}
 }
+*/

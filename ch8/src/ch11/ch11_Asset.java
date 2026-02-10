@@ -26,7 +26,7 @@ abstract class Asset {
  * class Assetを継承している抽象クラスを宣言
  * 今後「本」や「コンピューター」の元となる
 *************************************: */
-abstract class TangibleAsset extends Asset{
+/*abstract class TangibleAsset extends Asset{
 	//追加メンバ変数
 	String color;
 	
@@ -38,4 +38,4 @@ abstract class TangibleAsset extends Asset{
 	
 	//追加メソッド
 	public String getcolor() {return this.color;}
-}
+}*/

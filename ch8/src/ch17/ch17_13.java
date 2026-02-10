@@ -1,5 +1,5 @@
 package ch17;
-
+/*
 public class ch17_13 {
 
 	public static void main(String[] args) {
@@ -11,5 +11,5 @@ public class ch17_13 {
 		}
 
 	}
-
 }
+*/

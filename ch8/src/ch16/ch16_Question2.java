@@ -1,8 +1,5 @@
 package ch16;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class Hero{
 	private String name;
 	public Hero(String name) {this.name = name;}
@@ -16,6 +13,8 @@ class Hero{
  * ArrayListに格納
  * １人ずつ名前を表示
  *************************/
+
+/*
 class Main {
 	public static void main(String[] args) {
 		Hero h1 = new Hero("斉藤");
@@ -27,4 +26,4 @@ class Main {
 			System.out.println(s.getName() + "さん");
 		}
 	}
-}
+}*/

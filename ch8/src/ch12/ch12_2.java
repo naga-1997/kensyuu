@@ -1,9 +1,36 @@
 package ch12;
 //エラー回避のために宣言
-class Matango{
+
+abstract class Monster{
 	int hp;
+	public abstract void run();
+}
+class Matango extends Monster{
+	public void run() {
+		System.out.println("キノコは逃げ出した。");
+	}
 }
 
+class Goblin extends Monster{
+	public void run() {
+		System.out.println("ゴブリンは逃げ出した。");
+	}
+}
+
+class Slime extends Monster{
+	public void run() {
+		System.out.println("スライムは逃げ出した。");
+		}
+}
+
+class DeathBat extends Monster{
+	public void run() {
+		System.out.println("地獄コウモリは逃げ出した。");
+		}
+}
+
+
+/*
 //抽象クラスCharacterを宣言
 abstract class Character {
 	String name;
@@ -31,4 +58,4 @@ class Wizard extends Character{
 	}
 	
 	
-}
+}*/

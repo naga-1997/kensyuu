@@ -1,6 +1,6 @@
 package ch12;
 
-interface Life{}
+/*interface Life{}
 
 class Wizard implements Life{}
 
@@ -9,5 +9,5 @@ class Main{
 		//Life型の変数にWizardを代入することができる
 		Life lf = new Wizard();
 	}
-}
+}*/
 

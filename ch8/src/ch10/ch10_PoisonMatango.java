@@ -30,5 +30,4 @@ class PoisonMatango extends Matango {
 			 poison --;;
 		}
 	}
-
 }

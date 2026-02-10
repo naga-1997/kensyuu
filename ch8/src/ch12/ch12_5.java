@@ -1,7 +1,7 @@
 package ch12;
 //抽象クラスのモンスターを作成
 //敵は「逃げる」を必ず持つ
-abstract class Monster{
+/*abstract class Monster{
 	public void run() {
 		System.out.println("モンスターは逃げ出した");
 	}
@@ -22,5 +22,5 @@ class Slim extends Monster{
 		
 		s.run();m.run();
 	}
- }
+ }*/
  

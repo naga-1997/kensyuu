@@ -1,5 +1,5 @@
 package ch11;
-
+/*
 //継承（Character）の材料をnewしてしまった場合
  class Main {
 	 public static void main(String[] args) {
@@ -10,3 +10,4 @@ package ch11;
 	 }
 }
  //結果何も起きない
+*/

@@ -1,6 +1,6 @@
 package ch12;
 
-public class ch12_3 {
+/*public class ch12_3 {
 
 	public static void main(String[] args) {
 		Wizard w = new Wizard();
@@ -13,3 +13,4 @@ public class ch12_3 {
 	}
 
 }
+*/

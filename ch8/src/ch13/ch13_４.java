@@ -1,15 +1,15 @@
 package ch13;
 
- class Hero {
+ /*class Hero {
 	 private int hp;
-	 String name;
+	 private String name;
 	 Sword sword;
 	 
 	 public void bye() {
 		 System.out.println("勇者は別れを告げた");
 	 }
 	 
-	 public void die() {
+	 private void die() {
 		 System.out.println(this.name + "は死んでしまった！");
 		 System.out.println("GAMEOVERです。");
 	 }
@@ -27,8 +27,14 @@ package ch13;
 		if (this.hp <= 0) {
 			this.die();
 		}
-		
 	}
-	 
-
-}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+}*/

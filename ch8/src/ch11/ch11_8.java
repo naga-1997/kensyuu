@@ -1,4 +1,4 @@
-package ch11;
+/*package ch11;
 //Characterを抽象クラスとして宣言
  abstract class Character {
 	 String name;
@@ -9,5 +9,6 @@ package ch11;
 	 }
 	 
 	 //attackを抽象メソッドとして宣言
-	 public abstract void attack();
+	 public abstract void attack(Matango m);
 }
+*/

@@ -34,7 +34,17 @@ public class ch8_1Cleric {
 		return recoverAcctual;
 		
 	}
-	
-	
-
 }
+
+class Main{
+     public static void main(String[] args) {
+	      ch8_1Cleric c= new ch8_1Cleric();
+	      
+	      c.name = "長嶋";
+	      c.selfAid();
+	      c.pray(2);
+	}
+}
+
+
+

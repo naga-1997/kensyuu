@@ -2,7 +2,7 @@ package ch11;
 
 //Characterクラスの継承
 //オーバーライドをしない（忘れた場合のコード）
-class Hero extends Character {
+/*class Hero extends Character {
 }
 
 //オーバーライドをしない（忘れた場合のコード）場合のメインメソッド
@@ -13,4 +13,4 @@ class Main{
 		
 		h.attack(m);
   	}
-}
+}*/

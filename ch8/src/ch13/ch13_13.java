@@ -5,6 +5,7 @@ class Hero {
 	 private String name;
 	 Sword sword;
 	 
+	 
 	 public void bye() {
 		 System.out.println("勇者は別れを告げた");
 	 }
@@ -46,5 +47,13 @@ class Hero {
 		this.name = name;
 	}
 	
+	
+	public int getHp() {
+		return this.hp;
+	}
+	
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
 	
 }

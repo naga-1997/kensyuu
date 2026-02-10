@@ -1,7 +1,7 @@
 package ch16;
 import java.util.ArrayList;
 import java.util.List;
-
+/*
 class Hero {
 	public String name;
 }
@@ -16,3 +16,4 @@ class Main{
 		System.out.println(list.get(0).name);
 	}
 }
+*/

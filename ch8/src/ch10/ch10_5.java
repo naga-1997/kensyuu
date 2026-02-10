@@ -1,7 +1,7 @@
 package ch10;
 
 //Heroを継承したクラスSupreHeroを作成
-class SuperHer extends Hero {
+/*class SuperHer extends Hero {
 	//フィールドの追加　
 	boolean flying;
 	
@@ -17,6 +17,6 @@ class SuperHer extends Hero {
 	}
 	//runメソッドを再定義
 	public void run() {
-		System.out.println(this.name + "は撤退した");
+		System.out.println(this.name + "は撤退");
 	}
-}
+}*/

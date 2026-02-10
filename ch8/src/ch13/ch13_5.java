@@ -1,6 +1,6 @@
 package ch13;
 
-class Hero {
+/*class Hero {
 	 private int hp;
 	 String name;
 	 Sword sword;
@@ -13,4 +13,4 @@ class Hero {
 		 System.out.println(this.name + "は死んでしまった！");
 		 System.out.println("GAMEOVERです。");
 	 }
-}
+}*/

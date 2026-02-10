@@ -1,5 +1,5 @@
 package ch17;
-
+/*
 public class ch17_Question_1 {
 	public static void main(String[] args) {
 		String s = null;
@@ -14,3 +14,4 @@ public class ch17_Question_1 {
 	}
 }
 }
+*/

@@ -1,6 +1,6 @@
 package ch8;
 
-public class ch8_2 {
+public class ch8_2 {   //Hero
 	//属性の定義
 	String name;  
 	int hp;

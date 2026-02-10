@@ -1,7 +1,7 @@
 package ch11;
 
 //抽象クラスを宣言
-abstract class TangibleAsset{
+/*abstract class TangibleAsset{
 	//メンバ変数
 	String name;
 	int price;
@@ -19,9 +19,9 @@ abstract class TangibleAsset{
 	public int getPrice() {return this.price;}
 	public String getcolor() {return this.color;}
 	
-}
+}*/
 
-class Book1 extends TangibleAsset{
+/*class Book1 extends TangibleAsset{
 	//追加のメンバ変数
 	String isbn;
 	
@@ -46,4 +46,4 @@ class Computer1 extends TangibleAsset{
 	
 	//追加のメソッド
 	public String getMakerName() {return this.makerName;}
-}
+}*/

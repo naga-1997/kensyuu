@@ -30,6 +30,7 @@ public class ch14_Question1 {
 
 
     // メインメソッド
+	class Main{	
     public static void main(String[] args) {
         // インスタンス a の作成とデータ入力
         ch14_Question1 a = new ch14_Question1();
@@ -53,4 +54,5 @@ public class ch14_Question1 {
             System.out.println("aとbは「別の口座」と判定されました。");
         }
     }
+}
 }

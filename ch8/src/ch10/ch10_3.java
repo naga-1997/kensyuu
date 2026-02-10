@@ -1,7 +1,7 @@
 package ch10;
 
 //Heroを継承したクラスSupreHeroを作成
-class SuperHero extends Hero {
+/*class SuperHero extends Hero {
 	//フィールドの追加　
 	boolean flying;
 	
@@ -15,4 +15,4 @@ class SuperHero extends Hero {
 		this.flying = false;
 		System.out.println("着地した！");
 	}
-}
+}*/

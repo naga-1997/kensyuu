@@ -1,5 +1,5 @@
 package ch17;
-
+/*
 class Person{
 	int age;
 	public void setAge(int age) {
@@ -16,3 +16,4 @@ class Main{
 		p.setAge(-100);
 	}
 }
+*/

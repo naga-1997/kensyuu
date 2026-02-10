@@ -1,6 +1,6 @@
 package ch12;
 
-class Main {
+/*class Main {
 
 	public static void main(String[] args) {
 		Wizard w = new Wizard();
@@ -9,6 +9,6 @@ class Main {
 		
 		c.name = "アサカ";
 		c.attack(m);
-		c.fireball(m);//エラー　cの中身がHeroかWizardかわからない為
+		//c.fireball(m);//エラー　cの中身がHeroかWizardかわからない為
 	}
-}
+}*/

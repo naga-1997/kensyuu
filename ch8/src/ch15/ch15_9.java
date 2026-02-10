@@ -1,5 +1,5 @@
 package ch15;
-
+/*
 import javax.crypto.CipherOutputStream;
 
 public class ch15_9 {
@@ -7,3 +7,4 @@ public class ch15_9 {
 	String s = String.format(FOMAT,hero.getName(), hero.getJob(),hero.getGold());
 	System.out.println(s);
 }
+*/

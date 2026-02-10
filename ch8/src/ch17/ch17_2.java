@@ -1,5 +1,5 @@
 package ch17;
-
+/*
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -12,4 +12,4 @@ class Main{
 			System.out.println("エラーが発生しました。");
 		}
 	}
-}
+}*/
