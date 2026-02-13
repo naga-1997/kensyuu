@@ -29,8 +29,9 @@ public class Main {
 				f.draw();
 				System.out.println("周囲の長さは" + f.getPerimeter());
 				if (number == 3 || number == 4 || number == 44) {
-					Polygon p = (Polygon) f;
-					System.out.println("内角の和は、" + p.getInternalAngle());
+					if (f instanceof Polygon p) {
+						System.out.println("内角の和は、" + p.getInternalAngle());
+					}
 				}
 			} else {
 				System.out.println("正しい数値を入力してください");
