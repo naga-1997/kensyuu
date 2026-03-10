@@ -4,10 +4,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.example.samuraitravel.entity.Reservation;
 import com.example.samuraitravel.entity.User;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
-	public User findByEmail(String email);
 
-	public Page<User> findByNameLikeOrFuriganaLike(String nameKeyword, String furiganaKeyword, Pageable pageable);
+public interface ReservationRepository extends JpaRepository<Reservation, Integer>{
+	public Page<Reservation> findByUser(User user, Pageable pageable);
 }
