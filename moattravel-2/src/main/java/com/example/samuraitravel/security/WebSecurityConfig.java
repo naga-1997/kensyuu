@@ -17,14 +17,18 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		//どのURLに誰がアクセスできるかを決める
-		http.authorizeHttpRequests((requests) -> requests
-				//全てのユーザーにアクセス許可するURL
-				.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**", "houses", "houses/{id}")
-				.permitAll()
-				//管理者にのみ許可するURL
-				.requestMatchers("/admin/**").hasRole("ADMIN")
-				//上記以外のURLはログインが必要（会員または管理者のどちらでもOK）
-				.anyRequest().authenticated())
+		http.csrf(csrf -> csrf
+				.ignoringRequestMatchers("/stripe/webhook"))
+
+				.authorizeHttpRequests((requests) -> requests
+						//全てのユーザーにアクセス許可するURL
+						.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**", "houses",
+								"houses/{id}", "/stripe/webhook")
+						.permitAll()
+						//管理者にのみ許可するURL
+						.requestMatchers("/admin/**").hasRole("ADMIN")
+						//上記以外のURLはログインが必要（会員または管理者のどちらでもOK）
+						.anyRequest().authenticated())
 				//フォームのログイン設定をここで行う
 				.formLogin((form) -> form
 						//ログインページのURL
