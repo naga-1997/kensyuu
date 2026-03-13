@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.samuraitravel.entity.Role;
 import com.example.samuraitravel.entity.User;
 import com.example.samuraitravel.form.SignupForm;
+import com.example.samuraitravel.form.UserEditForm;
 import com.example.samuraitravel.repository.RoleRepository;
 import com.example.samuraitravel.repository.UserRepository;
 
@@ -36,10 +37,25 @@ public class UserService {
 		user.setEmail(signupForm.getEmail());
 		user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
 		user.setRole(role);
-		user.setEnabled(true);
+
+		user.setEnabled(false);
 
 		return userRepository.save(user);
 
+	}
+
+	@Transactional
+	public void update(UserEditForm userEditForm) {
+		User user = userRepository.getReferenceById(userEditForm.getId());
+
+		user.setName(userEditForm.getName());
+		user.setFurigana(userEditForm.getFurigana());
+		user.setPostalCode(userEditForm.getPostalCode());
+		user.setAddress(userEditForm.getAddress());
+		user.setPhoneNumber(userEditForm.getPhoneNumber());
+		user.setEmail(userEditForm.getEmail());
+
+		userRepository.save(user);
 	}
 
 	//メアドが登録済みかチェックする
@@ -51,5 +67,19 @@ public class UserService {
 	//パスワードと確認用パスワードの入力値が一致するかチェック
 	public boolean isSamePassword(String password, String passwordConfirmation) {
 		return password.equals(passwordConfirmation);
+	}
+
+	//ユーザーを有効にする
+	@Transactional
+	public void enableUser(User user) {
+		user.setEnabled(true);
+		userRepository.save(user);
+	}
+
+	//メアドが変更されたかチェックする
+	public boolean isEmailChanged(UserEditForm userEditForm) {
+		User currentUser = userRepository.getReferenceById(userEditForm.getId());
+
+		return !userEditForm.getEmail().equals(currentUser.getEmail());
 	}
 }
