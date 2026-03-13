@@ -103,11 +103,11 @@ public class StripeService {
 
 	    String sessionId = null;
 	    try {
-	        // getRawJson() でJSON文字列を取得 → Jackson で id だけ抜く
+	        // getRawJson()でJSON文字列を取得 → Jackson で id だけ抜く
 	        String rawJson = event.getDataObjectDeserializer().getRawJson();
 	        System.out.println("[WEBHOOK] rawJson=" + rawJson);
 
-	        // ObjectMapper で id フィールドだけ取得
+	        // ObjectMapperでidフィールドだけ取得
 	        ObjectMapper mapper = new ObjectMapper();
 	        JsonNode root = mapper.readTree(rawJson);
 	        sessionId = root.get("id").asText();
