@@ -7,10 +7,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.samuraitravel.entity.House;
+import com.example.samuraitravel.form.ReservationInputForm;
 import com.example.samuraitravel.repository.HouseRepository;
 
 @Controller
@@ -27,36 +29,40 @@ public class HouseController {
 			@RequestParam(name = "area", required = false) String area,
 			@RequestParam(name = "price", required = false) Integer price,
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
-			@RequestParam(name = "order" , required = false)String order,
+			@RequestParam(name = "order", required = false) String order,
 			Model model) {
 		Page<House> housePage;
 
 		if (keyword != null && !keyword.isEmpty()) {
 			housePage = houseRepository.findByNameLikeOrAddressLike("%" + keyword + "%", "%" + keyword + "%", pageable);
 			if (order != null && order.equals("priceAsc")) {
-				housePage = houseRepository.findByNameLikeOrAddressLikeOrderByPriceAsc("%" + keyword + "%", "%" + keyword + "%", pageable);
-			}else {
-				housePage = houseRepository.findByNameLikeOrAddressLikeOrderByCreatedAtDesc("%" + keyword + "%", "%" + keyword + "%", pageable);
+				housePage = houseRepository.findByNameLikeOrAddressLikeOrderByPriceAsc("%" + keyword + "%",
+						"%" + keyword + "%", pageable);
+			} else {
+				housePage = houseRepository.findByNameLikeOrAddressLikeOrderByCreatedAtDesc("%" + keyword + "%",
+						"%" + keyword + "%", pageable);
 			}
-		}else if (area != null && !area.isEmpty()) {
+		} else if (area != null && !area.isEmpty()) {
 			housePage = houseRepository.findByAddressLike("%" + area + "%", pageable);
 			if (order != null && order.equals("priceAsc")) {
 				housePage = houseRepository.findByAddressLikeOrderByPriceAsc("%" + area + "%", pageable);
-			}else {
-				housePage = houseRepository.findByNameLikeOrAddressLikeOrderByCreatedAtDesc("%" + area + "%",  pageable);
+			} else {
+				housePage = houseRepository.findByNameLikeOrAddressLikeOrderByCreatedAtDesc("%" + keyword + "%",
+						"%" + keyword + "%", pageable);
+
 			}
-		}else if (price != null) {
+		} else if (price != null) {
 			housePage = houseRepository.findByPriceLessThanEqual(price, pageable);
 			if (order != null && order.equals("priceAsc")) {
 				housePage = houseRepository.findByPriceLessThanEqualOrderByPriceAsc(price, pageable);
-			}else {
+			} else {
 				housePage = houseRepository.findByPriceLessThanEqualOrderByCreatedAtDesc(price, pageable);
 			}
-		}else {
+		} else {
 			housePage = houseRepository.findAll(pageable);
 			if (order != null && order.equals("priceAsc")) {
 				housePage = houseRepository.findAllByOrderByPriceAsc(pageable);
-			}else {
+			} else {
 				housePage = houseRepository.findAllByOrderByCreatedAtDesc(pageable);
 			}
 		}
@@ -67,5 +73,15 @@ public class HouseController {
 		model.addAttribute("price", price);
 
 		return "houses/index";
+	}
+
+	@GetMapping("{id}")
+	public String show(@PathVariable(name = "id") Integer id, Model model) {
+		House house = houseRepository.getReferenceById(id);
+
+		model.addAttribute("house", house);
+		model.addAttribute("reservationInputForm", new ReservationInputForm());
+
+		return "houses/show";
 	}
 }

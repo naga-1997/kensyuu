@@ -7,13 +7,14 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.samuraitravel.entity.House;
 import com.example.samuraitravel.form.HouseEditForm;
 import com.example.samuraitravel.form.HouseRegisterForm;
 import com.example.samuraitravel.repository.HouseRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class HouseService {
@@ -31,7 +32,7 @@ public class HouseService {
 		if (!imageFile.isEmpty()) {
 			String imageName = imageFile.getOriginalFilename();
 			String hashedImageName = generateNewFileName(imageName);
-			Path filePath = Paths.get("src/main/resources/static/storage" + hashedImageName);
+			Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
 			copyImageFile(imageFile, filePath);
 			house.setImageName(hashedImageName);
 		}
@@ -55,7 +56,7 @@ public class HouseService {
 		if (!imageFile.isEmpty()) {
 			String imageName = imageFile.getOriginalFilename();
 			String hashedImageName = generateNewFileName(imageName);
-			Path filePath = Paths.get("src/main/resources/static/storage" + hashedImageName);
+			Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
 			copyImageFile(imageFile, filePath);
 			house.setImageName(hashedImageName);
 		}
@@ -69,7 +70,6 @@ public class HouseService {
 		house.setPhoneNumber(houseEditForm.getPhoneNumber());
 
 		houseRepository.save(house);
-
 	}
 
 	//UUIDを使って生成したファイル名を返す
@@ -90,5 +90,4 @@ public class HouseService {
 			e.printStackTrace();
 		}
 	}
-
 }

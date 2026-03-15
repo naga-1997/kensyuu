@@ -12,19 +12,24 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-
 public class WebSecurityConfig {
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
+		//どのURLに誰がアクセスできるかを決める
+		http.csrf(csrf -> csrf
+				.ignoringRequestMatchers("/stripe/webhook"))
+
 				.authorizeHttpRequests((requests) -> requests
-						//全てのユーザーにアクセスを許可するURL
-						.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/login", "/signup/**", "/houses")
+						//全てのユーザーにアクセス許可するURL
+						.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**", "houses",
+								"houses/{id}", "/stripe/webhook")
 						.permitAll()
-						//管理者にのみアクセスを許可するUL
+						//管理者にのみ許可するURL
 						.requestMatchers("/admin/**").hasRole("ADMIN")
-						//上記以外のURLはログインが必要
+						//上記以外のURLはログインが必要（会員または管理者のどちらでもOK）
 						.anyRequest().authenticated())
+				//フォームのログイン設定をここで行う
 				.formLogin((form) -> form
 						//ログインページのURL
 						.loginPage("/login")
@@ -43,6 +48,7 @@ public class WebSecurityConfig {
 		return http.build();
 	}
 
+	//パスワードをハッシュ化する
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
