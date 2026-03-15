@@ -1,4 +1,4 @@
-const stripe = Stripe('stripe公開キー');
+const stripe = Stripe('公開キー');
 const paymentButton = document.querySelector('#paymentButton');
 
 paymentButton.addEventListener('click', () => {

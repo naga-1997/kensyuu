@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.samuraitravel.entity.House;
@@ -57,7 +58,7 @@ public class ReservationController {
 		return "reservations/index";
 	}
 
-	@GetMapping("/houses/{id}/reservations/input")
+	@PostMapping("/houses/{id}/reservations/input")
 	public String input(@PathVariable(name = "id") Integer id,
 			@ModelAttribute @Validated ReservationInputForm reservationInputForm,
 			BindingResult bindingResult,
