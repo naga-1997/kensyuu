@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+ <html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 
 <head>
 	<div th:replace="~{fragment :: meta}"></div>
@@ -11,6 +12,8 @@
 	<div class="moattravel-wrapper">
 		<div th:replace="~{fragment :: header}"></div>
 
+
+		<!--======== 前略 ========-->
 
 		<main>
 			<div class="container pt-4 pb-5 moattravel-container">
@@ -28,8 +31,19 @@
 						<div class="d-flex justify-content-end align-items-end mb-3">
 							<div>
 								<a href="#">編集</a>
+								<a th:href="@{/admin/houses/__${house.getId()}__/edit}">編集</a>
 							</div>
 						</div>
+
+						<div class="mb-3">
+							<img th:if="${house.getImageName()}" th:src="@{/storage/__${house.getImageName()}__}"
+								class="w-100" alt="民宿画像">
+							<img th:unless="${house.getImageName()}" th:src="@{/images/noImage.png}" class="w-100"
+								alt="NO IMAGE">
+						</div>
+
+						<!--======== 後略 ========-->
+
 
 						<div class="mb-3">
 							<!-- 不備：__${...}__ はプリプロセス式です。通常の画像表示なら th:src="@{/storage/{file}(file=${house.imageName})}" 等が一般的です -->
