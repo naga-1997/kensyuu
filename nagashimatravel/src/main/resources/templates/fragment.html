@@ -55,6 +55,7 @@
 							</a>
 							<div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownGeneral">
 								<a class="dropdown-item moattravel-dropdown-item" th:href="@{/user}">会員情報</a>
+								<a class="dropdown-item moattravel-dropdown-item" th:href="@{/reservations}">予約一覧</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item moattravel-dropdown-item" th:href="@{/logout}"
 									onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -73,8 +74,6 @@
 								<a class="dropdown-item moattravel-dropdown-item" th:href="@{/admin/users}">会員一覧</a>
 								<a class="dropdown-item moattravel-dropdown-item" th:href="@{/admin/houses}">民宿一覧</a>
 								<div class="dropdown-divider"></div>
-								<!-- 【不備指摘】管理者用のフォームIDを logout-form-admin などにし、 -->
-								<!-- getElementById() 内の指定もそれに合わせて修正してください -->
 								<a class="dropdown-item moattravel-dropdown-item" th:href="@{/logout}"
 									onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 									ログアウト
