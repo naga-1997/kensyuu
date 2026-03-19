@@ -19,4 +19,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 			LocalDate checkoutDate, // 既存予約のチェックイン日 < 新規予約のチェックアウト日
 			LocalDate checkinDate  // 既存予約のチェックアウト日 > 新規予約のチェックイン日
 	);
+	
+	// 直近予約5件取得用
+		List<Reservation> findTop5ByUserOrderByCreatedAtDesc(User user);
 }

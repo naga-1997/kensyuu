@@ -30,4 +30,11 @@ public interface HouseRepository extends JpaRepository<House, Integer> {
 	public Page<House> findAllByOrderByPriceAsc(Pageable pageable);
 
 	public List<House> findTop10ByOrderByCreatedAtDesc();
+
+	public List<House> findByAddressContaining(String prefecture);
+
+	//その都道府県の宿を取得、ただし過去に予約した宿は出さない
+	public List<House> findByAddressContainingAndIdNotIn(String prefecture, List<Integer> ids);
+
+	public Page<House> findAll(Pageable pageable);
 }

@@ -1,7 +1,9 @@
 package com.example.nagashimatravel.controller;
 
 import java.time.LocalDate;
+import java.util.Locale;
 
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -27,18 +29,25 @@ import com.example.nagashimatravel.repository.HouseRepository;
 import com.example.nagashimatravel.repository.ReservationRepository;
 import com.example.nagashimatravel.security.UserDetailsImpl;
 import com.example.nagashimatravel.service.ReservationService;
+import com.example.nagashimatravel.service.StripeService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class ReservationController {
 	private final ReservationRepository reservationRepository;
 	private final HouseRepository houseRepository;
 	private final ReservationService reservationService;
+	private final MessageSource messageSource;
+	private final StripeService stripeService;
 
 	public ReservationController(ReservationRepository reservationRepository, HouseRepository houseRepository,
-			ReservationService reservationService) {
+			ReservationService reservationService, MessageSource messageSource, StripeService stripeService) {
 		this.reservationRepository = reservationRepository;
 		this.houseRepository = houseRepository;
 		this.reservationService = reservationService;
+		this.messageSource = messageSource;
+		this.stripeService = stripeService;
 	}
 
 	@GetMapping("/reservations")
@@ -67,14 +76,15 @@ public class ReservationController {
 		if (numberOfPeople != null) {
 			if (!reservationService.isWithinCapacity(numberOfPeople, capacity)) {
 				FieldError fieldError = new FieldError(bindingResult.getObjectName(), "numberOfPeople",
-						"宿泊人数が定員を超えています。");
+						messageSource.getMessage("reservation.capa.over", null, Locale.getDefault()));
 				bindingResult.addError(fieldError);
 			}
 		}
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("house", house);
-			model.addAttribute("errorMessage", "予約内容に不備があります。");
+			model.addAttribute("errorMessage",
+					messageSource.getMessage("reservation.error", null, Locale.getDefault()));
 
 			return "houses/show";
 		}
@@ -88,6 +98,7 @@ public class ReservationController {
 	public String confirm(@PathVariable(name = "id") Integer id,
 			@ModelAttribute ReservationInputForm reservationInputForm,
 			@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+			HttpServletRequest httpServletRequest,
 			Model model) {
 
 		House house = houseRepository.getReferenceById(id);
@@ -103,16 +114,28 @@ public class ReservationController {
 
 		ReservationRegisterForm reservationRegisterForm = new ReservationRegisterForm(house.getId(), user.getId(),
 				checkinDate.toString(), checkoutDate.toString(), reservationInputForm.getNumberOfPeople(), amount);
+		
+		// 予約が重複しているかチェック
+		if (!reservationService.isReservationAvailable(user, checkinDate, checkoutDate)) {
+			model.addAttribute("house", house);
+			model.addAttribute("errorMessage",
+					messageSource.getMessage("reservation.overlap.error", null, Locale.getDefault()));
+			return "houses/show";
+		}
+
+		String sessionId = stripeService.createStripeSession(house.getName(), reservationRegisterForm,
+				httpServletRequest);
 
 		model.addAttribute("house", house);
 		model.addAttribute("reservationRegisterForm", reservationRegisterForm);
+		model.addAttribute("sessionId", sessionId);
 
 		return "reservations/confirm";
 	}
 
 	@PostMapping("/houses/{id}/reservations/create")
-	public String create(
-			@ModelAttribute ReservationRegisterForm reservationRegisterForm, 
+	public String register(
+			@ModelAttribute ReservationRegisterForm reservationRegisterForm,
 			@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
 			RedirectAttributes redirectAttributes) {
 
@@ -123,13 +146,15 @@ public class ReservationController {
 		LocalDate checkoutDate = LocalDate.parse(reservationRegisterForm.getCheckoutDate());
 		//予約が重複しているかチェック
 		if (!reservationService.isReservationAvailable(user, checkinDate, checkoutDate)) {
-			redirectAttributes.addFlashAttribute("errorMessage", "同じ日程ですでに予約済みの宿があります。");
+			redirectAttributes.addFlashAttribute("errorMessage",
+					messageSource.getMessage("reservation.overlap.error", null, Locale.getDefault()));
 			return "redirect:/houses/" + houseId;
 		}
 
 		//  問題なければ保存
 		reservationService.create(reservationRegisterForm);
-		
+
 		return "redirect:/reservations?reserved";
 	}
+	
 }

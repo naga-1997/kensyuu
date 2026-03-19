@@ -2,7 +2,9 @@ package com.example.nagashimatravel.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Locale;
 
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,9 +18,11 @@ import com.example.nagashimatravel.repository.UserRepository;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	private final UserRepository userRepository;
+	private final MessageSource messageSource;
 
-	public UserDetailsServiceImpl(UserRepository userRepository) {
+	public UserDetailsServiceImpl(UserRepository userRepository, MessageSource messageSource) {
 		this.userRepository = userRepository;
+		this.messageSource = messageSource;
 	}
 
 	@Override
@@ -27,14 +31,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			User user = userRepository.findByEmail(email);
 			//存在しないメアドが打たれたとしても確実に例外処理
 			if (user == null) {
-				throw new UsernameNotFoundException("ユーザーが見つかりませんでした。");
+				throw new UsernameNotFoundException(
+						messageSource.getMessage("securirty.user.error", null, Locale.getDefault()));
 			}
 			String userRoleName = user.getRole().getName();
 			Collection<GrantedAuthority> authorities = new ArrayList<>();
 			authorities.add(new SimpleGrantedAuthority(userRoleName));
 			return new UserDetailsImpl(user, authorities);
 		} catch (Exception e) {
-			throw new UsernameNotFoundException("ユーザーが見つかりませんでした。");
+			throw new UsernameNotFoundException(
+					(messageSource.getMessage("securirty.user.error", null, Locale.getDefault())));
 		}
 	}
 }

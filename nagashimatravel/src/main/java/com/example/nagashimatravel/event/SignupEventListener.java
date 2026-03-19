@@ -1,7 +1,9 @@
 package com.example.nagashimatravel.event;
 
+import java.util.Locale;
 import java.util.UUID;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.event.EventListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,10 +16,13 @@ import com.example.nagashimatravel.service.VerificationTokenService;
 public class SignupEventListener {
 	private final VerificationTokenService verificationTokenService;
 	private final JavaMailSender javaMailSender;
+	private final MessageSource messageSource;
 
-	public SignupEventListener(VerificationTokenService verificationTokenService, JavaMailSender mailSender) {
+	public SignupEventListener(VerificationTokenService verificationTokenService, JavaMailSender mailSender,
+			MessageSource messageSource) {
 		this.verificationTokenService = verificationTokenService;
 		this.javaMailSender = mailSender;
+		this.messageSource = messageSource;
 	}
 
 	@EventListener
@@ -27,9 +32,9 @@ public class SignupEventListener {
 		verificationTokenService.create(user, token);
 
 		String recipientAddress = user.getEmail();
-		String subject = "メール認証";
+		String subject = messageSource.getMessage("event.mail.auth", null, Locale.getDefault());
 		String confirmationUrl = signupEvent.getRequestUrl() + "/verify?token=" + token;
-		String message = "以下のリンクをクリックして会員登録を完了させてください。";
+		String message = messageSource.getMessage("event.mailMessage", null, Locale.getDefault());
 
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 		mailMessage.setTo(recipientAddress);

@@ -3,6 +3,7 @@ package com.example.nagashimatravel.service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -30,19 +31,57 @@ public class ReservationService {
 	}
 
 	@Transactional
-	public void create(ReservationRegisterForm reservationRegisterForm) {
+	public void create(Map<String, String> paymentIntentObject) {
 		Reservation reservation = new Reservation();
-		House house = houseRepository.getReferenceById(reservationRegisterForm.getHouseId());
-		User user = userRepository.getReferenceById(reservationRegisterForm.getUserId());
-		LocalDate checkinDate = LocalDate.parse(reservationRegisterForm.getCheckinDate());
-		LocalDate checkoutDate = LocalDate.parse(reservationRegisterForm.getCheckoutDate());
+
+		Integer houseId = Integer.valueOf(paymentIntentObject.get("houseId"));
+		Integer userId = Integer.valueOf(paymentIntentObject.get("userId"));
+		LocalDate checkinDate = LocalDate.parse(paymentIntentObject.get("checkinDate"));
+		LocalDate checkoutDate = LocalDate.parse(paymentIntentObject.get("checkoutDate"));
+		Integer numberOfPeople = Integer.valueOf(paymentIntentObject.get("numberOfPeople"));
+		Integer amount = Integer.valueOf(paymentIntentObject.get("amount"));
+
+		House house = houseRepository.getReferenceById(houseId);
+		User user = userRepository.getReferenceById(userId);
+
+		// 重複チェック
+		if (!isReservationAvailable(user, checkinDate, checkoutDate)) {
+			System.out.println("⚠️ 予約重複のため保存しない");
+			return;
+		}
 
 		reservation.setHouse(house);
 		reservation.setUser(user);
 		reservation.setCheckinDate(checkinDate);
 		reservation.setCheckoutDate(checkoutDate);
-		reservation.setNumberOfPeople(reservationRegisterForm.getNumberOfPeople());
-		reservation.setAmount(reservationRegisterForm.getAmount());
+		reservation.setNumberOfPeople(numberOfPeople);
+		reservation.setAmount(amount);
+
+		reservationRepository.save(reservation);
+
+		System.out.println("✅ 予約保存完了");
+	}
+
+	@Transactional
+	public void create(ReservationRegisterForm reservationRegisterForm) {
+		Reservation reservation = new Reservation();
+
+		Integer houseId = reservationRegisterForm.getHouseId();
+		Integer userId = reservationRegisterForm.getUserId();
+		LocalDate checkinDate = LocalDate.parse(reservationRegisterForm.getCheckinDate());
+		LocalDate checkoutDate = LocalDate.parse(reservationRegisterForm.getCheckoutDate());
+		Integer numberOfPeople = reservationRegisterForm.getNumberOfPeople();
+		Integer amount = reservationRegisterForm.getAmount();
+
+		House house = houseRepository.getReferenceById(houseId);
+		User user = userRepository.getReferenceById(userId);
+
+		reservation.setHouse(house);
+		reservation.setUser(user);
+		reservation.setCheckinDate(checkinDate);
+		reservation.setCheckoutDate(checkoutDate);
+		reservation.setNumberOfPeople(numberOfPeople);
+		reservation.setAmount(amount);
 
 		reservationRepository.save(reservation);
 	}
@@ -69,7 +108,6 @@ public class ReservationService {
 						checkoutDate, //既存チェックアウト日取得
 						checkinDate //新規チェックイン日取得
 				);
-
 		// 1件もなければ空いてる（true）
 		// 1件でもあれば重複（false）
 		return reservations.isEmpty();

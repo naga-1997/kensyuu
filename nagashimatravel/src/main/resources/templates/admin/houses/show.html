@@ -30,7 +30,7 @@
 
 						<div class="d-flex justify-content-end align-items-end mb-3">
 							<div>
-								<a href="#">編集</a>
+								
 								<a th:href="@{/admin/houses/__${house.getId()}__/edit}">編集</a>
 							</div>
 						</div>
@@ -45,13 +45,6 @@
 						<!--======== 後略 ========-->
 
 
-						<div class="mb-3">
-							<!-- 不備：__${...}__ はプリプロセス式です。通常の画像表示なら th:src="@{/storage/{file}(file=${house.imageName})}" 等が一般的です -->
-							<img th:if="${house.getImageName()}" th:src="@{/storage/__${house.getImageName()}__}"
-								class="w-100" alt="民宿画像">
-							<img th:unless="${house.getImageName()}" th:src="@{/images/noImage.png}" class="w-100"
-								alt="NO IMAGE">
-						</div>
 
 						<div class="container mb-4">
 							<div class="row pb-2 mb-2 border-bottom">

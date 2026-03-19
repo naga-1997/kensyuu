@@ -1,5 +1,8 @@
 package com.example.nagashimatravel.controller;
 
+import java.util.Locale;
+
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +26,12 @@ import com.example.nagashimatravel.service.UserService;
 public class UserController {
 	private final UserRepository userRepository;
 	private final UserService userService;
+	private final MessageSource messageSource;
 
-	public UserController(UserRepository userRepository, UserService userService) {
+	public UserController(UserRepository userRepository, UserService userService, MessageSource messageSource) {
 		this.userRepository = userRepository;
 		this.userService = userService;
+		this.messageSource = messageSource;
 	}
 
 	@GetMapping
@@ -53,7 +58,7 @@ public class UserController {
 			RedirectAttributes redirectAttributes) {
 		// メールアドレスが変更されており、かつ登録済みであれば、BindingResultオブジェクトにエラー内容を追加する
 		if (userService.isEmailChanged(userEditForm) && userService.isEmailRegistered(userEditForm.getEmail())) {
-			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "email", "すでに登録済みのメールアドレスです。");
+			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "email", messageSource.getMessage("auth.mail.error", null, Locale.getDefault()));
 
 			bindingResult.addError(fieldError);
 		}
@@ -61,7 +66,7 @@ public class UserController {
 			return "user/edit";
 		}
 		userService.update(userEditForm);
-		redirectAttributes.addFlashAttribute("successMessage", "会員情報を編集しました。");
+		redirectAttributes.addFlashAttribute("successMessage", messageSource.getMessage("user.edit", null, Locale.getDefault()));
 
 		return "redirect:/user";
 	}

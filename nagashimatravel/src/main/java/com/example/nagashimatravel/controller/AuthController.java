@@ -1,5 +1,8 @@
 package com.example.nagashimatravel.controller;
 
+import java.util.Locale;
+
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,12 +28,14 @@ public class AuthController {
 	private final UserService userService;
 	private final SignupEventPublisher signupEventPublisher;
 	private final VerificationTokenService verificationTokenService;
+	private final MessageSource messageSource;
 
 	public AuthController(UserService userService, SignupEventPublisher signupEventPublisher,
-			VerificationTokenService verificationTokenService) {
+			VerificationTokenService verificationTokenService, MessageSource messageSource) {
 		this.userService = userService;
 		this.signupEventPublisher = signupEventPublisher;
 		this.verificationTokenService = verificationTokenService;
+		this.messageSource = messageSource;
 	}
 
 	@GetMapping("/login")
@@ -50,12 +55,14 @@ public class AuthController {
 			RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) {
 		// メールアドレスが登録済みであれば、BindingResultオブジェクトにエラー内容を追加する
 		if (userService.isEmailRegistered(signupForm.getEmail())) {
-			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "email", "すでに登録済みのメールアドレスです。");
+			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "email",
+					messageSource.getMessage("auth.mail.error", null, Locale.getDefault()));
 			bindingResult.addError(fieldError);
 		}
 		// パスワードとパスワード（確認用）の入力値が一致しなければ、BindingResultオブジェクトにエラー内容を追加する
 		if (!userService.isSamePassword(signupForm.getPassword(), signupForm.getPasswordConfirmation())) {
-			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "password", "パスワードが一致しません。");
+			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "password",
+					messageSource.getMessage("auth.pass.error", null, Locale.getDefault()));
 			bindingResult.addError(fieldError);
 		}
 
@@ -67,7 +74,7 @@ public class AuthController {
 		String requestUrl = new String(httpServletRequest.getRequestURL());
 		signupEventPublisher.publishSignupEvent(createdUser, requestUrl);
 		redirectAttributes.addFlashAttribute("successMessage",
-				"ご入力いただいたメールアドレスに認証メールを送信しました。メールに記載されているリンクをクリックし、会員登録を完了してください。");
+				messageSource.getMessage("auth.mail.info", null, Locale.getDefault()));
 
 		return "redirect:/";
 	}
@@ -79,10 +86,10 @@ public class AuthController {
 		if (verificationToken != null) {
 			User user = verificationToken.getUser();
 			userService.enableUser(user);
-			String successMessage = "会員登録が完了しました。";
+			String successMessage = messageSource.getMessage("auth.info", null, Locale.getDefault());
 			model.addAttribute("successMessage", successMessage);
 		} else {
-			String errorMessage = "トークンが無効です。";
+			String errorMessage = messageSource.getMessage("auth.token.error", null, Locale.getDefault());
 			model.addAttribute("errorMessage", errorMessage);
 		}
 		return "auth/verify";

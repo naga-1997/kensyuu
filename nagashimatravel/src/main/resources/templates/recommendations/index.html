@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<div th:replace="~{fragment :: meta}"></div>
+	<div th:replace="~{fragment :: styles}"></div>
+	<title>おすすめ一覧</title>
+</head>
+
+<body>
+	<div class="moattravel-wrapper">
+
+		<!-- ヘッダー -->
+		<div th:replace="~{fragment :: header}"></div>
+
+		<main>
+			<div class="container moattravel-container pb-5">
+				<div class="row justify-content-center">
+					<div class="col-xl-10">
+
+						<!-- パンくず -->
+						<nav class="my-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0">
+								<li class="breadcrumb-item"><a th:href="@{/}">ホーム</a></li>
+								<li class="breadcrumb-item active" aria-current="page">おすすめ一覧</li>
+							</ol>
+						</nav>
+
+						<!-- 件数表示 -->
+						<div class="d-flex justify-content-between flex-wrap">
+							<p th:if="${recommendationPage.totalPages > 1}" class="fs-5 mb-3"
+								th:text="${'おすすめ宿：' + recommendationPage.totalElements + '件（' + (recommendationPage.number + 1) + ' / ' + recommendationPage.totalPages + 'ページ）'}">
+							</p>
+
+							<p th:unless="${recommendationPage.totalPages > 1}" class="fs-5 mb-3"
+								th:text="${'おすすめ宿：' + recommendationPage.totalElements + '件'}">
+							</p>
+
+							<!-- 並び替え -->
+							<form method="get" th:action="@{/recommendations}" class="mb-3 moattravel-sort-box">
+								<select class="form-select form-select-sm" name="order" onchange="this.form.submit();">
+									<option value="createdAtDesc" th:selected="${order == 'createdAtDesc'}">新着順</option>
+									<option value="priceAsc" th:selected="${order == 'priceAsc'}">料金が安い順</option>
+								</select>
+							</form>
+						</div>
+
+						<!-- 一覧 -->
+						<div class="mb-3" th:each="house : ${recommendationPage.content}">
+							<a th:href="@{/houses/__${house.id}__}" class="link-dark moattravel-card-link">
+								<div class="card h-100">
+									<div class="row g-0">
+
+										<!-- 画像 -->
+										<div class="col-md-4">
+											<img th:if="${house.imageName}" th:src="@{/storage/__${house.imageName}__}"
+												class="card-img-top moattravel-horizontal-card-image" alt="民宿画像">
+											<img th:unless="${house.imageName}" th:src="@{/images/noImage.png}"
+												class="card-img-top moattravel-horizontal-card-image" alt="NO IMAGE">
+										</div>
+
+										<!-- 詳細 -->
+										<div class="col-md-8">
+											<div class="card-body">
+
+												<!-- 名前 -->
+												<h3 class="card-title mb-3" th:text="${house.name}"></h3>
+
+												<hr class="mb-3">
+
+												<!-- 説明 -->
+												<p class="card-text mb-2">
+													<span th:text="${house.description}"></span>
+												</p>
+
+												<!-- 住所 -->
+												<p class="card-text mb-2">
+													<small class="text-muted"
+														th:text="${'〒' + house.postalCode}"></small>
+													<small class="text-muted" th:text="${house.address}"></small>
+												</p>
+
+												<!-- 料金 -->
+												<p class="card-text">
+													<span
+														th:text="${#numbers.formatInteger(house.price,1,'COMMA') + '円 / 泊'}"></span>
+												</p>
+
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<!-- ページネーション -->
+						<nav th:if="${recommendationPage.totalPages > 1}">
+							<ul class="pagination justify-content-center">
+
+								<!-- 前 -->
+								<li class="page-item" th:classappend="${recommendationPage.first} ? ' disabled'">
+									<a th:href="@{/recommendations(page=${recommendationPage.number - 1}, order=${order})}"
+										class="page-link">前</a>
+								</li>
+
+								<!-- 数字 -->
+								<li th:each="i : ${#numbers.sequence(0, recommendationPage.totalPages - 1)}"
+									class="page-item" th:classappend="${i == recommendationPage.number} ? ' active'">
+									<a th:href="@{/recommendations(page=${i}, order=${order})}" class="page-link"
+										th:text="${i + 1}"></a>
+								</li>
+
+								<!-- 次 -->
+								<li class="page-item" th:classappend="${recommendationPage.last} ? ' disabled'">
+									<a th:href="@{/recommendations(page=${recommendationPage.number + 1}, order=${order})}"
+										class="page-link">次</a>
+								</li>
+
+							</ul>
+						</nav>
+
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<!-- フッター -->
+		<div th:replace="~{fragment :: footer}"></div>
+
+	</div>
+
+	<div th:replace="~{fragment :: scripts}"></div>
+</body>
+
+</html>

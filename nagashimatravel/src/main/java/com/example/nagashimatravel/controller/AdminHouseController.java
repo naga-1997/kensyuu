@@ -1,5 +1,8 @@
 package com.example.nagashimatravel.controller;
 
+import java.util.Locale;
+
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -27,10 +30,12 @@ import com.example.nagashimatravel.service.HouseService;
 public class AdminHouseController {
 	private final HouseRepository houseRepository;
 	private final HouseService houseService;
+	private final MessageSource messageSource;
 
-	public AdminHouseController(HouseRepository houseRepository, HouseService houseService) {
+	public AdminHouseController(HouseRepository houseRepository, HouseService houseService, MessageSource messageSource) {
 		this.houseRepository = houseRepository;
 		this.houseService = houseService;
+		this.messageSource = messageSource;
 	}
 
 	@GetMapping
@@ -74,7 +79,7 @@ public class AdminHouseController {
 			return "admin/houses/register";
 		}
 		houseService.create(houseRegisterForm);
-		redirectAttributes.addFlashAttribute("successMessage", "民宿を登録しました。");
+		redirectAttributes.addFlashAttribute("successMessage", messageSource.getMessage("admin.house.created" ,  null, Locale.getDefault()));
 
 		return "redirect:/admin/houses";
 	}
@@ -100,7 +105,7 @@ public class AdminHouseController {
 		}
 		houseService.update(houseEditForm);
 
-		redirectAttributes.addFlashAttribute("successMessage", "民宿情報を編集しました。");
+		redirectAttributes.addFlashAttribute("successMessage", messageSource.getMessage("admin.house.edit", null, Locale.getDefault()));
 
 		return "redirect:/admin/houses";
 	}
@@ -109,7 +114,7 @@ public class AdminHouseController {
 	public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {
 		houseRepository.deleteById(id);
 		
-		redirectAttributes.addFlashAttribute("successMessage", "民宿を削除しました。");
+		redirectAttributes.addFlashAttribute("successMessage", messageSource.getMessage("admin.house.delete", null, Locale.getDefault()));
 		
 		return "redirect:/admin/houses";
 		}
