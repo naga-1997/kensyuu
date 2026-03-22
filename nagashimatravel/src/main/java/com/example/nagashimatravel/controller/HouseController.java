@@ -1,5 +1,8 @@
 package com.example.nagashimatravel.controller;
 
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -14,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.nagashimatravel.entity.House;
 import com.example.nagashimatravel.form.ReservationInputForm;
 import com.example.nagashimatravel.repository.HouseRepository;
+import com.example.nagashimatravel.service.WeatherService;
 
 @Controller
 @RequestMapping("/houses")
 public class HouseController {
 	private final HouseRepository houseRepository;
+	@Autowired
+	private WeatherService weatherService;
 
 	public HouseController(HouseRepository houseRepository) {
 		this.houseRepository = houseRepository;
@@ -92,9 +98,14 @@ public class HouseController {
 	@GetMapping("/{id}")
 	public String show(@PathVariable(name = "id") Integer id, Model model) {
 		House house = houseRepository.getReferenceById(id);
+		// 住所 or エリアから都市名を決める
+		String city = "Tokyo"; // 後で改善
+		// 天気取得
+		Map<String, Object> weather = weatherService.getWeather(city);
 
 		model.addAttribute("house", house);
 		model.addAttribute("reservationInputForm", new ReservationInputForm());
+		model.addAttribute("weather", weather);
 
 		return "houses/show";
 	}

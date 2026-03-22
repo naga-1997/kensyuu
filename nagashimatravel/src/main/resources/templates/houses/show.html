@@ -71,6 +71,20 @@
 										<div class="col"><span th:text="${house.getPhoneNumber()}"></span></div>
 									</div>
 								</div>
+								<div class="row pb-2 mb-2 border-bottom" th:if="${weather != null}">
+									<div class="col-4"><span class="fw-bold">天気</span></div>
+									<div class="col">
+										<div>
+											<span th:text="${weather['weather'][0]['description']}"></span>
+										</div>
+										<div>
+											気温：<span th:text="${weather['main']['temp']}"></span>℃
+										</div>
+										<div>
+											湿度：<span th:text="${weather['main']['humidity']}"></span>%
+										</div>
+									</div>
+								</div>
 
 								<div sec:authorize="isAnonymous()" class="col-lg-4 px-0 ps-lg-4 mb-4">
 									<div class="card">
