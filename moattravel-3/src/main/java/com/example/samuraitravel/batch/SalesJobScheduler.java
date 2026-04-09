@@ -20,7 +20,7 @@ public class SalesJobScheduler {
 		this.monthlySalesJob = monthlySalesJob;
 	}
 
-	@Scheduled(cron = "0 * * * * *")
+	@Scheduled(cron = "* * 11 * * ?")
 	public void runDailySalesJob() throws Exception {
 		 System.out.println("日次ジョブ起動");
 		JobParameters params = new JobParametersBuilder()
@@ -30,7 +30,7 @@ public class SalesJobScheduler {
 		jobLauncher.run(dailySalesJob, params);
 	}
 
-	@Scheduled(cron = "0 * * * * *")
+	@Scheduled(cron = "* * 11 * * ?")
 	public void runMonthlySalesJob() throws Exception {
 		 System.out.println("月次ジョブ起動");
 		JobParameters params = new JobParametersBuilder()
